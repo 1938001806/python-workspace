@@ -1,0 +1,72 @@
+🏆 第一部分：你的 Python 技能树（你已经学会了什么）
+根据你的代码，你已经掌握了 Python 的四大核心板块：
+
+1. 基础语法与逻辑 (Foundation)
+变量与数据类型：整数 (int)、字符串 (str)、布尔值 (True/False)，以及用 int() 进行类型转换。
+
+输入输出：熟练使用 input() 接收，用 print() 输出。
+
+字符串格式化：熟练使用 f-string（如 f"你赢了{stats['玩家赢']}次"），以及保留小数（如 {average_math:.1f}）。
+
+流程控制：if/elif/else 多条件判断，while 循环、for...in range() 循环，以及极其关键的 break（跳出）和 continue（跳过）。
+
+2. 核心数据结构 (Data Structures)
+列表 (List)：用 append() 装数据，用 len() 数长度，用 sum() 求和，用 range(len()) 遍历下标。
+
+字典 (Dictionary)：用 {键: 值} 存取数据，用 in 查重，用 .items() 遍历，用 del 删除数据。
+
+3. 高级应用 (Advanced)
+函数 (Function)：用 def 封装代码块，把原来的“一坨”代码拆分成了清晰的 add_contacts()、show_contacts() 等模块。
+
+文件操作与数据持久化：用 with open() 读写文件，用 json.dump/load 存通讯录，用 csv 模块生成表格。
+
+4. 第三方库 (Libraries)
+random：用 randint() 让电脑学会随机出拳。
+
+pandas：用 read_csv() 读表，用条件筛选数据（如 df[df["数学"] > 80]），算平均分 .mean()，排序 .sort_values()，计算总分 .sum(axis=1)。
+
+matplotlib：用 plt.bar() 画柱状图，用 plt.plot() 画折线图，并解决了中文乱码问题。
+
+⚠️ 第二部分：你的“专属病历本”（你最容易犯的错误）
+通过分析你的代码，我发现你踩的坑非常典型。把这些记在心里，以后能省下 50% 的排错时间：
+
+🚨 1. 逻辑运算符的“致命打击”
+错误现场：在 loop-01.py 里，你写过 if score < 100 or score < 0:。
+
+避坑指南：and 和 or 一定要捋清。“或者”用 or，“并且”用 and。拦截非法成绩，意思是“小于0 或者 大于100”，所以应该是 score < 0 or score > 100。
+
+🚨 2. 顺序问题（先查重还是先保存？）
+错误现场：最初写通讯录时，你先把电话存入字典，然后才判断 if name in contacts，导致新加的也会提示“已存在”。
+
+避坑指南：写代码时在脑子里过一下“时间线”。先判断、再执行。先查字典里有没有，没有的话再往里面存。
+
+🚨 3. 手滑与拼写错误（最冤的错误）
+错误现场：
+
+把赋值号 = 敲成了减号 -（导致 KeyError）。
+
+文件名拼写错误 frist.py（应该是 first.py）。
+
+变量名首字母大写 bad_English。
+
+避坑指南：Python 对大小写和符号极其严格。变量名统一用全小写+下划线（如 bad_english）。每次敲完等号，多看一眼。
+
+🚨 4. 循环与缩进（灵魂所在）
+错误现场：在 09_rps_game.py 里，你把 round_count += 1 写在了 while True 循环的最外面，导致游戏无法累积局数。
+
+避坑指南：Python 靠缩进来认亲戚。属于循环里的代码，必须和 while 对齐并缩进 4 个空格。另外，else 后面不能跟条件（如 else age < 18: 是错的）。
+
+🚨 5. 数据类型的“结界”
+错误现场：在 06_function_contacts.py 里，写了 if len(contacts) == "0":。
+
+避坑指南：len() 算出来是数字 0，加了引号 "0" 就是字符串。文字和数字不能直接比大小或判断相等。
+
+🚨 6. 空文件的防御（JSON 崩溃）
+错误现场：文件被清空后，json.load() 直接让程序崩溃（JSONDecodeError）。
+
+避坑指南：以后写代码要有点“防御心”。读取文件时考虑文件是不是坏了，加个 try...except 或者判断文件大小。或者每次清空文件时，手动写个 {} 进去。
+
+🚨 7. pandas 的特殊语法习惯
+错误现场：在 11_analysis.py 里，你用了 & 连接两个条件 (df["数学"] > 80) & (df["英语"] > 80)。
+
+避坑指南：在 pandas 里，千万别用 and / or，必须用 & / |，而且每个条件都必须用小括号 () 包起来，否则报错。此外，画图时 plt.xlabel 你写了两次（应该是 xlabel 和 ylabel），这种拼写错误可以通过看图表弹出来的效果发现。

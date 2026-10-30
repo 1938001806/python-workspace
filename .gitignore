@@ -1,0 +1,13 @@
+# 虚拟环境
+venv_o3d/
+venv/
+
+# 数据文件
+lidar/data/
+*.csv
+*.ply
+*.pcd
+
+# 缓存
+__pycache__/
+*.pyc
