@@ -1,0 +1,129 @@
+🗺️ 第一部分：你已经掌握的“类”知识全景图
+你现在已经能熟练运用以下四大核心技能了，代码示例如下：
+
+python
+# 1. 定义类（画图纸） & 2. 初始化（出厂设置）
+class Animal:
+    # 构造函数：造对象时自动执行
+    def __init__(self, name, age):
+        self.name = name  # 实例属性（每个动物独有的名字）
+        self.age = age    # 实例属性（每个动物独有的年龄）
+
+    # 3. 定义方法（类里面的函数，必须带 self）
+    def speak(self):
+        print(f"{self.name} 发出了声音！")
+
+# 4. 继承（子承父业）
+class Dog(Animal):
+    def __init__(self, name, age, breed):
+        # 呼叫老爸初始化（super 的妙用）
+        super().__init__(name, age)
+        self.breed = breed  # 子类独有的属性：品种
+
+    # 5. 方法重写（覆盖老爸的方法）
+    def speak(self):
+        print(f"{self.name} 是一只 {self.breed}，它汪汪叫！")
+
+# 6. 实例化（造真狗） & 调用方法
+my_dog = Dog("旺财", 3, "中华田园犬")
+my_dog.speak()  # 输出：旺财 是一只 中华田园犬，它汪汪叫！
+你已经懂了：
+
+class 是图纸。
+
+__init__ 是出厂设置。
+
+self 代表当前的“那个具体的对象”。
+
+super() 让子类白嫖父类的功能。
+
+重写就是“儿子觉得老爸的方法不好用，自己写个同名的”。
+
+🎁 第二部分：你“还没学到”的进阶神功（非常实用）
+这部分属于书本第 9 章的后半部分，或者更进阶的教程内容。你现在提前学了，以后看别人的代码就不会懵了。
+
+神功 1：__str__ 魔法方法（让打印对象变好看）
+如果你现在写 print(my_dog)，电脑会打印出一串极其难看的 <__main__.Dog object at 0x000001>。
+加上 __str__ 之后，你一 print 这个对象，它就会自动调用这个方法，给你返回一句人话。
+
+python
+class Cat:
+    def __init__(self, name):
+        self.name = name
+        
+    # 魔法方法：只要 print(对象)，就会自动执行这里
+    def __str__(self):
+        return f"这是一只名叫 {self.name} 的猫。"
+
+my_cat = Cat("优米")
+print(my_cat)  # 输出：这是一只名叫 优米 的猫。
+神功 2：类属性（大家共享的公共财产）
+之前你写的 self.name 是实例属性（每只狗都不一样）。
+如果你想定义一个属性，让所有造出来的对象共享，就放在类里面，但不要加 self。
+
+python
+class Dog:
+    # 类属性：放在类里面，但没有 self。所有狗共享这一个属性。
+    species = "犬科动物" 
+
+    def __init__(self, name):
+        self.name = name # 实例属性：每只狗自己独有
+
+dog1 = Dog("旺财")
+dog2 = Dog("大黄")
+
+print(dog1.species) # 犬科动物
+print(dog2.species) # 犬科动物
+# 改一下类属性，所有的狗都会跟着变
+Dog.species = "食肉目犬科"
+print(dog1.species) # 食肉目犬科
+神功 3：私有属性（给你的数据上把锁）
+在 Python 里，如果你在属性名前面加两个下划线 __（比如 __password），这就变成了私有属性。外部的人不能直接修改它，这是一种保护机制。
+
+python
+class BankAccount:
+    def __init__(self):
+        # 加了双下划线，这就是私有属性，外部不能直接 . 出来
+        self.__money = 1000 
+        
+    def show_money(self):
+        print(f"你的余额是：{self.__money}")
+
+account = BankAccount()
+account.show_money()  # 可以正常运行：你的余额是：1000
+
+# 如果你强行写 print(account.__money) 会直接报错！
+# 电脑会大喊：“这是私房钱，你不能直接看！”
+神功 4：类的三种方法（普通方法、类方法、静态方法）
+除了你常用的 def speak(self)（普通方法），还有两种极少用到、但在做大型项目时会出现的工具：
+
+python
+class Calculator:
+    # 1. 普通方法（你已掌握）：必须传 self，用来处理对象自己的数据
+    def add(self, a, b):
+        return a + b
+
+    # 2. 静态方法：加 @staticmethod，不传 self。就是一个纯粹挂在这的工具
+    @staticmethod
+    def sub(a, b):
+        return a - b
+
+    # 3. 类方法：加 @classmethod，传 cls。用来操作类属性
+    @classmethod
+    def info(cls):
+        print("我是计算器图纸")
+
+# 静态方法可以直接通过类名调用，不用造对象
+print(Calculator.sub(5, 3))  # 输出：2
+新手先不用管类方法和静态方法，只要知道它们叫这个名字，以后遇到查一下就行。
+
+💡 给你的终极复习口诀：
+图纸（class） 里装的是 属性（变量） 和 方法（def）。
+
+self 是身份的证明，代表当前这个具体的对象。
+
+super() 是认祖归宗，用来借用老爸的功能。
+
+__init__ 是出生时的啼哭（自动初始化），__str__ 是自我介绍。
+
+你现在能看懂这段总结吗？如果觉得上面的进阶内容有点多，不用担心，先专注把 try...except（异常处理）学完，那是马上就能用在通讯录里防崩溃的！要是准备好了，咱们直接动手改通讯录！

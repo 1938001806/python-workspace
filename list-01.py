@@ -8,10 +8,9 @@ print(len(scores))
 classnames = []
 
 for i in range(3):  #i是循环自动产生的 不需要定义
-    new_name = input("请输入第个同学姓名：").strip()
+    new_name = input(f"请输入第{i + 1}个同学姓名：").strip()
     if new_name:
         classnames.append(new_name)
-
 
 print("\n全班同学名单如下：")
 for name in classnames:
