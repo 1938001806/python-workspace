@@ -102,6 +102,7 @@ game_main_wide.py      [插桩] 结束帧数=6   方向翻转次数=7  用时 0.
 正确写法是「整队的最左/最右」，而不是「随便哪一只」：
 
 ```python
+# 函数体片段（screen / aliens / fleet_direction 由参数传进来）：
 if aliens:
     fleet_right = max(a.rect.right for a in aliens)
     fleet_left = min(a.rect.left for a in aliens)
@@ -353,6 +354,8 @@ while True:
 
 三个信息：`create_fleet` 由屏幕宽度算出 **9 列 × 5 行 = 45 只**，最右到 720（**没超出 800**，所以第 3 节那个「列数一多就每帧下沉」的病根被顺手治好了）；判负发生在第 801 帧，和原版第 800 帧只差 1 帧（因为 `update_fleet` 里把「移动」和「判负」放在了一次调用里）；**801 帧 ÷ 60 帧每秒 ≈ 13.4 秒**，比现在实测的 23.02 秒短 42%——这就是第 5 节说的「修好帧率，整局时长会跟着变」，改完 Clock 你必须重新调 `ALIEN_SPEED`。
 
+⚠️ 这份重写只搬结构、**没顺手改游戏性**：`game_active = False` 之后依然停在 GAME OVER 画面（第 7 节批评的那条），我保留了它——因为「重开一局」要你自己决定重置哪些状态。按 Esc 能退出（`handle_keydown` 里加了）。
+
 再单独验一次「贴墙只翻一次」这条修复。⚠️ 关键是把上一次的 `d` **传回**下一次调用（模拟真实主循环），别传常量：
 
 ```python
@@ -439,6 +442,7 @@ def update(self, dt):                 # dt：上一帧到这一帧过了多少�
 [game_main.py:59-70](file:///E:/python%E6%BA%90%E7%A0%81/python%E5%B7%A5%E4%BD%9C%E5%8C%BA/lreaning/game/game_main.py#L59)：
 
 ```python
+# 原文节选（game_main.py:59-70）：
 for bullet in bullets[:]:          # ← 遍历副本，正确
     ...
     for alien in aliens[:]:        # ← 同样正确
